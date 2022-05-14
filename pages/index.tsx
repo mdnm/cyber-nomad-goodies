@@ -1,20 +1,26 @@
+import { PrismaClient, Resource } from "@prisma/client";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Logo from "../components/Logo";
 import ResourcesGrid from "../components/ResourcesGrid";
 
-const Home: NextPage = () => {
-  const resources = [
-    {
-      id: "1",
-      title: "Remotive",
-      description:
-        "The #1 Remote Work Community, Remotive Handpicks Remote Jobs.",
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-  ];
+const prisma = new PrismaClient();
 
+export async function getServerSideProps() {
+  const resources = await prisma.resource.findMany();
+
+  return {
+    props: {
+      resources: JSON.parse(JSON.stringify(resources)),
+    },
+  };
+}
+
+type Props = {
+  resources: Resource[];
+};
+
+const Home: NextPage<Props> = ({ resources = [] }) => {
   return (
     <div>
       <Head>

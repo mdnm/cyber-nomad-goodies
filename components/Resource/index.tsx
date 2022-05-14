@@ -1,8 +1,8 @@
-import { Resources } from "@prisma/client";
+import { Resource } from "@prisma/client";
 import Image from "next/image";
 import React from "react";
 
-type Props = Omit<Resources, "createdAt" | "updatedAt"> & {
+type Props = Omit<Resource, "createdAt" | "updatedAt"> & {
   link: string;
   imageUrl: string;
 };
