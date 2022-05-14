@@ -1,10 +1,20 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import Image from "next/image";
 import Logo from "../components/Logo";
-import resourceBg from "../public/resource-bg.png";
+import ResourcesGrid from "../components/ResourcesGrid";
 
 const Home: NextPage = () => {
+  const resources = [
+    {
+      id: "1",
+      title: "Remotive",
+      description:
+        "The #1 Remote Work Community, Remotive Handpicks Remote Jobs.",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+  ];
+
   return (
     <div>
       <Head>
@@ -41,89 +51,7 @@ const Home: NextPage = () => {
         <div className="flex-1">
           <h1 className="text-2xl font-bold mb-7">All Resources</h1>
 
-          <div className="flex flex-wrap gap-7">
-            <a href="#">
-              <div className="flex flex-col gap-2 max-w-xs">
-                <Image src={resourceBg} alt="Remotive landing page" />
-                <span className="text-xl font-bold">Remotive</span>
-                <p className="text-base">
-                  The #1 Remote Work Community, Remotive Handpicks Remote Jobs.
-                </p>
-              </div>
-            </a>
-            <a href="#">
-              <div className="flex flex-col gap-2 max-w-xs">
-                <Image src={resourceBg} alt="Remotive landing page" />
-                <span className="text-xl font-bold">Remotive</span>
-                <p className="text-base">
-                  The #1 Remote Work Community, Remotive Handpicks Remote Jobs.
-                </p>
-              </div>
-            </a>
-            <a href="#">
-              <div className="flex flex-col gap-2 max-w-xs">
-                <Image src={resourceBg} alt="Remotive landing page" />
-                <span className="text-xl font-bold">Remotive</span>
-                <p className="text-base">
-                  The #1 Remote Work Community, Remotive Handpicks Remote Jobs.
-                </p>
-              </div>
-            </a>
-            <a href="#">
-              <div className="flex flex-col gap-2 max-w-xs">
-                <Image src={resourceBg} alt="Remotive landing page" />
-                <span className="text-xl font-bold">Remotive</span>
-                <p className="text-base">
-                  The #1 Remote Work Community, Remotive Handpicks Remote Jobs.
-                </p>
-              </div>
-            </a>
-            <a href="#">
-              <div className="flex flex-col gap-2 max-w-xs">
-                <Image src={resourceBg} alt="Remotive landing page" />
-                <span className="text-xl font-bold">Remotive</span>
-                <p className="text-base">
-                  The #1 Remote Work Community, Remotive Handpicks Remote Jobs.
-                </p>
-              </div>
-            </a>
-            <a href="#">
-              <div className="flex flex-col gap-2 max-w-xs">
-                <Image src={resourceBg} alt="Remotive landing page" />
-                <span className="text-xl font-bold">Remotive</span>
-                <p className="text-base">
-                  The #1 Remote Work Community, Remotive Handpicks Remote Jobs.
-                </p>
-              </div>
-            </a>
-            <a href="#">
-              <div className="flex flex-col gap-2 max-w-xs">
-                <Image src={resourceBg} alt="Remotive landing page" />
-                <span className="text-xl font-bold">Remotive</span>
-                <p className="text-base">
-                  The #1 Remote Work Community, Remotive Handpicks Remote Jobs.
-                </p>
-              </div>
-            </a>
-            <a href="#">
-              <div className="flex flex-col gap-2 max-w-xs">
-                <Image src={resourceBg} alt="Remotive landing page" />
-                <span className="text-xl font-bold">Remotive</span>
-                <p className="text-base">
-                  The #1 Remote Work Community, Remotive Handpicks Remote Jobs.
-                </p>
-              </div>
-            </a>
-            <a href="#">
-              <div className="flex flex-col gap-2 max-w-xs">
-                <Image src={resourceBg} alt="Remotive landing page" />
-                <span className="text-xl font-bold">Remotive</span>
-                <p className="text-base">
-                  The #1 Remote Work Community, Remotive Handpicks Remote Jobs.
-                </p>
-              </div>
-            </a>
-          </div>
+          <ResourcesGrid resources={resources} />
         </div>
       </main>
     </div>
