@@ -5,12 +5,14 @@ import toast from "react-hot-toast";
 import Layout from "../../sections/Layout";
 
 type FormData = {
+  image: string | ArrayBuffer | null;
   title: string;
   description: string;
 };
 
 const CreateResource: NextPage = () => {
   const [formData, setFormData] = useState<FormData>({
+    image: "",
     title: "",
     description: "",
   });
@@ -19,6 +21,20 @@ const CreateResource: NextPage = () => {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  }
+
+  async function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.item(0);
+    if (!file) {
+      toast.error("A file is required");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.addEventListener("load", () => {
+      setFormData({ ...formData, image: reader.result });
+    });
+    reader.readAsDataURL(file);
   }
 
   async function handleAddResource(e: React.FormEvent<HTMLFormElement>) {
@@ -41,6 +57,18 @@ const CreateResource: NextPage = () => {
         <span className="text-xl text-gray-500 mb-14">
           Share a resource with your fellow cyber nomads
         </span>
+        <div className="w-full flex flex-col gap-2 mb-6">
+          <label htmlFor="image" className="text-base text-gray-500">
+            Image
+          </label>
+          <input
+            id="image"
+            type="file"
+            name="image"
+            className="w-full border-[1px] h-12 rounded-lg shadow-sm p-2"
+            onChange={handleInputChange}
+          />
+        </div>
         <div className="w-full flex flex-col gap-2 mb-6">
           <label htmlFor="title" className="text-base text-gray-500">
             Title

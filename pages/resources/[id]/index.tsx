@@ -3,7 +3,6 @@ import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { prisma } from "../../../lib/prisma";
-import imageUrl from "../../../public/resource-bg.png";
 import Layout from "../../../sections/Layout";
 
 type StaticProps = {
@@ -53,7 +52,7 @@ const ViewResource: NextPage<StaticProps> = ({ resource = null }) => {
         <h1 className="text-2xl font-bold mb-2">{resource.title}</h1>
         <span className="text-xl mb-8">{resource.description}</span>
         <div className="relative w-full h-[30rem] mb-4">
-          <Image src={imageUrl} alt={resource.title} layout="fill" />
+          <Image src={resource.imageUrl} alt={resource.title} layout="fill" />
         </div>
         <button className="px-6 py-3 bg-sky-700 text-white rounded-lg ml-auto outline-none focus:outline-offset-0 focus:outline-sky-300 focus:outline-[3px] transition-all">
           Visit

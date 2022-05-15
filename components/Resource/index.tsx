@@ -3,9 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-type Props = Omit<Resource, "createdAt" | "updatedAt"> & {
-  imageUrl: string;
-};
+type Props = Omit<Resource, "createdAt" | "updatedAt">;
 
 const Resource = ({ id, title, description, imageUrl }: Props) => {
   return (
