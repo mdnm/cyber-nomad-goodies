@@ -1,6 +1,7 @@
 import { Resource } from "@prisma/client";
 import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { prisma } from "../../../lib/prisma";
 import Layout from "../../../sections/Layout";
@@ -54,9 +55,21 @@ const ViewResource: NextPage<StaticProps> = ({ resource = null }) => {
         <div className="relative w-full h-[30rem] mb-4">
           <Image src={resource.imageUrl} alt={resource.title} layout="fill" />
         </div>
-        <button className="px-6 py-3 bg-sky-700 text-white rounded-lg ml-auto outline-none focus:outline-offset-0 focus:outline-sky-300 focus:outline-[3px] transition-all">
-          Visit
-        </button>
+        <div className="w-full flex justify-between items-center">
+          <Link href={`/resources/${resource.id}/update`} passHref>
+            <a className="px-6 py-3 text-sky-700 border-sky-700 border-[1px] rounded-lg outline-none focus:outline-offset-0 focus:outline-sky-300 focus:outline-[3px] transition-all">
+              Update
+            </a>
+          </Link>
+          <a
+            href={resource.link}
+            target="_blank"
+            rel="noreferrer"
+            className="px-6 py-3 bg-sky-700 text-white rounded-lg outline-none focus:outline-offset-0 focus:outline-sky-300 focus:outline-[3px] transition-all"
+          >
+            Visit
+          </a>
+        </div>
       </div>
     </Layout>
   );

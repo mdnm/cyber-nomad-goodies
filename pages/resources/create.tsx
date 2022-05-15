@@ -8,6 +8,7 @@ type FormData = {
   image: string | ArrayBuffer | null;
   title: string;
   description: string;
+  link: string;
 };
 
 const CreateResource: NextPage = () => {
@@ -15,6 +16,7 @@ const CreateResource: NextPage = () => {
     image: "",
     title: "",
     description: "",
+    link: "",
   });
 
   async function handleChange(
@@ -42,7 +44,16 @@ const CreateResource: NextPage = () => {
 
     toast.promise(axios.post("/api/resources", formData), {
       loading: "Loading...",
-      success: <span>Resource created!</span>,
+      success: () => {
+        setFormData({
+          image: "",
+          title: "",
+          description: "",
+          link: "",
+        });
+
+        return <span>Resource created!</span>;
+      },
       error: (error) => <span>{error.response.data.message}</span>,
     });
   }
@@ -67,6 +78,7 @@ const CreateResource: NextPage = () => {
             name="image"
             className="w-full border-[1px] h-12 rounded-lg shadow-sm p-2"
             onChange={handleInputChange}
+            required
           />
         </div>
         <div className="w-full flex flex-col gap-2 mb-6">
@@ -80,6 +92,7 @@ const CreateResource: NextPage = () => {
             className="w-full border-[1px] h-9 rounded-lg shadow-sm p-2 outline-none focus:outline-offset-0 focus:outline-gray-400 focus:outline-[3px] transition-all"
             onChange={handleChange}
             value={formData.title}
+            required
           />
         </div>
         <div className="w-full flex flex-col gap-2 mb-5">
@@ -92,7 +105,22 @@ const CreateResource: NextPage = () => {
             className="w-full border-[1px] h-32 rounded-lg shadow-sm p-2 outline-none focus:outline-offset-0 focus:outline-gray-400 focus:outline-[3px] transition-all"
             onChange={handleChange}
             value={formData.description}
+            required
           ></textarea>
+        </div>
+        <div className="w-full flex flex-col gap-2 mb-6">
+          <label htmlFor="link" className="text-base text-gray-500">
+            Link
+          </label>
+          <input
+            id="link"
+            type="url"
+            name="link"
+            className="w-full border-[1px] h-9 rounded-lg shadow-sm p-2 outline-none focus:outline-offset-0 focus:outline-gray-400 focus:outline-[3px] transition-all"
+            onChange={handleChange}
+            value={formData.link}
+            required
+          />
         </div>
         <button className="px-6 py-3 bg-sky-700 text-white rounded-lg ml-auto outline-none focus:outline-offset-0 focus:outline-sky-300 focus:outline-[3px] transition-all">
           Add Resource

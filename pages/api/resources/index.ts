@@ -6,7 +6,7 @@ import { nanoid } from "nanoid";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "../../../lib/prisma";
 
-type ResourceBody = Pick<Resource, "title" | "description"> & {
+type ResourceBody = Pick<Resource, "title" | "description" | "link"> & {
   image: string;
 };
 
@@ -18,7 +18,7 @@ const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_PUBLIC_KEY;
 
 if (!SUPABASE_URL || !SUPABASE_KEY) {
-  throw new Error("There is't no supabase config on ENV");
+  throw new Error("There is no supabase config on ENV");
 }
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -36,17 +36,17 @@ export default async function handler(
 
   try {
     const data = req.body;
-    if (!data.title || !data.description || !data.image) {
+    if (!data.title || !data.description || !data.image || !data.link) {
       return res.status(422).json({
-        message: `Properties title, description and image are required`,
+        message: `Properties title, description, link and image are required`,
       });
     }
 
-    const { title, description, image } = data as ResourceBody;
+    const { title, description, link, image } = data as ResourceBody;
 
     const SUPABASE_BUCKET = process.env.SUPABASE_PUBLIC_BUCKET;
     if (!SUPABASE_BUCKET) {
-      throw new Error("There is't no supabase config on ENV");
+      throw new Error("There is no supabase config on ENV");
     }
 
     const contentTypeMatches = image.match(/data:(.*);base64/);
@@ -94,7 +94,7 @@ export default async function handler(
     }
 
     await prisma.resource.create({
-      data: { title, description, imageUrl: publicURL },
+      data: { title, description, link, imageUrl: publicURL },
     });
 
     res.status(201).send({
