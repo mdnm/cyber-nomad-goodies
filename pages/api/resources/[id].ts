@@ -61,7 +61,6 @@ export default async function handler(
 
     const { title, description, link, image } = data as ResourceBody;
 
-    let imageUrl = "";
     if (image) {
       const SUPABASE_BUCKET = process.env.SUPABASE_PUBLIC_BUCKET;
       if (!SUPABASE_BUCKET) {
@@ -112,13 +111,16 @@ export default async function handler(
         });
       }
 
-      imageUrl = publicURL;
+      await prisma.resource.update({
+        where: { id },
+        data: { title, description, link, imageUrl: publicURL },
+      });
+    } else {
+      await prisma.resource.update({
+        where: { id },
+        data: { title, description, link },
+      });
     }
-
-    await prisma.resource.update({
-      where: { id },
-      data: { title, description, link, imageUrl },
-    });
 
     res.status(200).send({
       message: "Resource updated successfully",
