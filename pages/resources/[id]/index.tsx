@@ -1,10 +1,10 @@
-import { PrismaClient, Resource } from "@prisma/client";
+import { Resource } from "@prisma/client";
 import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Image from "next/image";
-import imageUrl from "../../public/resource-bg.png";
-import Layout from "../../sections/Layout";
-
-const prisma = new PrismaClient();
+import { useRouter } from "next/router";
+import { prisma } from "../../../lib/prisma";
+import imageUrl from "../../../public/resource-bg.png";
+import Layout from "../../../sections/Layout";
 
 type StaticProps = {
   resource: Resource;
@@ -21,7 +21,7 @@ export const getStaticPaths: GetStaticPaths<StaticParams> = async () => {
 
   return {
     paths: resources.map((resource) => ({ params: { id: resource.id } })),
-    fallback: false,
+    fallback: true,
   };
 };
 
@@ -40,7 +40,13 @@ export const getStaticProps: GetStaticProps<
   };
 };
 
-const ViewResource: NextPage<StaticProps> = ({ resource }) => {
+const ViewResource: NextPage<StaticProps> = ({ resource = null }) => {
+  const router = useRouter();
+
+  if (router.isFallback || !resource) {
+    return <span>Loading...</span>;
+  }
+
   return (
     <Layout>
       <div className="max-w-screen-lg mx-auto flex flex-col px-4">

@@ -1,9 +1,8 @@
-import { PrismaClient, Resource } from "@prisma/client";
+import { Resource } from "@prisma/client";
 import type { NextPage } from "next";
 import ResourcesGrid from "../components/ResourcesGrid";
+import { prisma } from "../lib/prisma";
 import Layout from "../sections/Layout";
-
-const prisma = new PrismaClient();
 
 export async function getServerSideProps() {
   const resources = await prisma.resource.findMany();

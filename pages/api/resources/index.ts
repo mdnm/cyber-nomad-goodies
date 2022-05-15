@@ -1,16 +1,17 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { PrismaClient } from "@prisma/client";
+import { Resource } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { prisma } from "../../../lib/prisma";
 
-type Data = {
+type ResourceBody = Pick<Resource, "title" | "description">;
+
+type ResponseBody = {
   message: string;
 };
 
-const prisma = new PrismaClient();
-
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse<ResponseBody>
 ) {
   if (req.method !== "POST") {
     res.setHeader("Allow", ["POST"]);
@@ -19,18 +20,15 @@ export default async function handler(
       .json({ message: `HTTP method ${req.method} is not allowed` });
   }
 
-  const data = req.body;
-  if (!data.title || !data.description) {
-    return res.status(422).json({
-      message: `Properties title and description are required`,
-    });
-  }
-
   try {
-    const { title, description } = data as {
-      title: string;
-      description: string;
-    };
+    const data = req.body;
+    if (!data.title || !data.description) {
+      return res.status(422).json({
+        message: `Properties title and description are required`,
+      });
+    }
+
+    const { title, description } = data as ResourceBody;
     await prisma.resource.create({
       data: { title, description },
     });

@@ -11,12 +11,7 @@ const ResourcesGrid = ({ resources }: Props) => {
   return (
     <div className="flex flex-wrap gap-7">
       {resources.map((resource) => (
-        <Resource
-          key={resource.id}
-          link="#"
-          imageUrl={resourceBg.src}
-          {...resource}
-        />
+        <Resource key={resource.id} imageUrl={resourceBg.src} {...resource} />
       ))}
     </div>
   );
